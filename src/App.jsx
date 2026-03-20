@@ -140,6 +140,11 @@ export default function App() {
     },
   ]
 
+  const orderedServices = [
+    ...services.filter((s) => s.key === activeSeason),
+    ...services.filter((s) => s.key !== activeSeason),
+  ]
+
   return (
     <div className="dyhs">
       <header className="dyhs-header">
@@ -310,7 +315,7 @@ export default function App() {
               </button>
             </div>
             <div className="dyhs-seasonal-grid" role="list">
-              {services.map((s) => (
+              {orderedServices.map((s) => (
                 <article
                   key={s.key}
                   className={`dyhs-service-card dyhs-service-card-${s.key} ${
