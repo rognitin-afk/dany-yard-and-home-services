@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="dyhs-footer">
       <div className="dyhs-container dyhs-footer-inner">
         <div className="dyhs-footer-brand">
-          <img src="/logo.png" className="dyhs-footer-logo" alt="DYHS" />
+          <div className="dyhs-footer-logo" role="img" aria-label="Dandy Yard and Home Services" />
           <span className="dyhs-footer-copy">
             © {year} Dandy Yard and Home Services. All rights reserved.
           </span>

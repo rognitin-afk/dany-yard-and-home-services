@@ -41,9 +41,11 @@ export default function Header({ menuOpen, setMenuOpen }) {
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="dyhs-header-inner">
-          <a className="dyhs-brand" href="#top" aria-label="Dandy Yard and Home Services">
-            <img src="/logo.png" className="dyhs-logo" alt="Dandy Yard and Home Services" />
-          </a>
+          <a
+            className="dyhs-brand dyhs-logo"
+            href="#top"
+            aria-label="Dandy Yard and Home Services"
+          />
 
           <button
             className="dyhs-burger"
@@ -98,7 +100,11 @@ export default function Header({ menuOpen, setMenuOpen }) {
               transition={{ type: 'spring', damping: 26, stiffness: 300 }}
             >
               <div className="dyhs-drawer-top">
-                <img src="/logo.png" className="dyhs-drawer-logo" alt="Dandy Yard and Home Services" />
+                <div
+                  className="dyhs-drawer-logo"
+                  role="img"
+                  aria-label="Dandy Yard and Home Services"
+                />
                 <button
                   className="dyhs-drawer-close"
                   type="button"
