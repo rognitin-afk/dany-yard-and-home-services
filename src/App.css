@@ -338,7 +338,7 @@ html {
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: center;
+  background-position: center center;
   background-repeat: no-repeat;
   filter: saturate(1.06) contrast(1.03);
   -webkit-mask-image: linear-gradient(
@@ -362,6 +362,54 @@ html {
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   mask-mode: alpha;
+}
+
+.dyhs-hero-slider {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.dyhs-hero-slide {
+  opacity: 0;
+  transition: opacity 0.85s ease;
+}
+
+.dyhs-hero-slide.is-active {
+  opacity: 1;
+}
+
+.dyhs-hero-slider-ui {
+  position: absolute;
+  bottom: clamp(14px, 3vw, 22px);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 4;
+  pointer-events: auto;
+}
+
+.dyhs-hero-slider-dot {
+  width: 9px;
+  height: 9px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.28);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.dyhs-hero-slider-dot:hover {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.dyhs-hero-slider-dot.active {
+  background: #ffffff;
+  transform: scale(1.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 /* Text: 50% width; scrim = copy bg fading out (same mix as before — no extra tint tokens) */
@@ -807,6 +855,151 @@ html {
   line-height: 1.35;
   color: var(--season-heading);
   text-align: center;
+}
+
+.dyhs-small-engine {
+  position: relative;
+  z-index: 5;
+  margin-top: 0;
+  padding: 24px 22px;
+  background: var(--season-surface);
+  border-radius: 20px;
+  border: 1px solid var(--season-border);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02), 0 12px 36px rgba(2, 6, 23, 0.05);
+  text-align: center;
+}
+
+.dyhs-services-panel + .dyhs-small-engine {
+  margin-top: 22px;
+}
+
+.dyhs-small-engine-title {
+  margin: 0 0 8px;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--season-heading);
+}
+
+.dyhs-small-engine-intro {
+  margin: 0 0 18px;
+  font-size: 15px;
+  color: var(--season-muted);
+  line-height: 1.5;
+}
+
+.dyhs-small-engine-trigger {
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0;
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  text-align: left;
+  position: relative;
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: var(--season-bg);
+}
+
+.dyhs-small-engine-trigger:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.16);
+}
+
+.dyhs-small-engine-trigger:focus-visible {
+  outline: 3px solid rgba(var(--season-accent-rgb), 0.5);
+  outline-offset: 3px;
+}
+
+.dyhs-small-engine-trigger-media {
+  display: block;
+  aspect-ratio: 16 / 10;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.dyhs-small-engine-trigger-hint {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 14px 16px;
+  background: linear-gradient(transparent, rgba(15, 23, 42, 0.75));
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+.dyhs-modal-root {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(16px, env(safe-area-inset-bottom));
+}
+
+.dyhs-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: rgba(15, 23, 42, 0.55);
+  cursor: pointer;
+}
+
+.dyhs-modal-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  max-height: min(90vh, 720px);
+  overflow: auto;
+  background: var(--season-surface);
+  border-radius: 20px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.28);
+  border: 1px solid var(--season-border);
+}
+
+.dyhs-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.45);
+  color: #ffffff;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.dyhs-modal-close:hover {
+  background: rgba(15, 23, 42, 0.65);
+}
+
+.dyhs-modal-card-media {
+  aspect-ratio: 16 / 10;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* ─── Season Selector ─── */
@@ -1523,6 +1716,20 @@ html {
 
   .dyhs-more-services-grid {
     grid-template-columns: 1fr;
+  }
+
+  .dyhs-small-engine {
+    margin-top: 0;
+    padding: 18px 14px;
+    border-radius: 16px;
+  }
+
+  .dyhs-services-panel + .dyhs-small-engine {
+    margin-top: 16px;
+  }
+
+  .dyhs-small-engine-title {
+    font-size: 19px;
   }
 
   .dyhs-seasonal-grid {

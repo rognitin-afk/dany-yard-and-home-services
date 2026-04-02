@@ -1,4 +1,6 @@
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
+import { motion as Motion, AnimatePresence } from 'framer-motion'
 
 const SEASONS = ['spring', 'summer', 'fall', 'winter']
 
@@ -74,6 +76,8 @@ const services = [
   },
 ]
 
+const SMALL_ENGINE_IMAGE = encodeURI('/small engine repair image.PNG')
+
 const cardVariants = {
   hidden: { opacity: 0, y: 30, scale: 0.95 },
   visible: (i) => ({
@@ -89,6 +93,22 @@ const cardVariants = {
 }
 
 export default function Services({ activeSeason, setActiveSeason }) {
+  const [smallEngineOpen, setSmallEngineOpen] = useState(false)
+
+  useEffect(() => {
+    if (!smallEngineOpen) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const onKey = (e) => {
+      if (e.key === 'Escape') setSmallEngineOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = prev
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [smallEngineOpen])
+
   const orderedServices = [
     ...services.filter((s) => s.key === activeSeason),
     ...services.filter((s) => s.key !== activeSeason),
@@ -97,7 +117,7 @@ export default function Services({ activeSeason, setActiveSeason }) {
   return (
     <section id="services" className="dyhs-seasonal">
       <div className="dyhs-container">
-        <motion.div
+        <Motion.div
           className="dyhs-services-panel"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -118,7 +138,7 @@ export default function Services({ activeSeason, setActiveSeason }) {
                 {SEASON_ICONS[season]}
                 <AnimatePresence mode="wait">
                   {activeSeason === season && (
-                    <motion.span
+                    <Motion.span
                       key={season}
                       initial={{ width: 0, opacity: 0 }}
                       animate={{ width: 'auto', opacity: 1 }}
@@ -127,17 +147,17 @@ export default function Services({ activeSeason, setActiveSeason }) {
                       className="dyhs-season-label"
                     >
                       {season.charAt(0).toUpperCase() + season.slice(1)}
-                    </motion.span>
+                    </Motion.span>
                   )}
                 </AnimatePresence>
               </button>
             ))}
           </div>
 
-          <motion.div className="dyhs-seasonal-grid" role="list" layout>
+          <Motion.div className="dyhs-seasonal-grid" role="list" layout>
             <AnimatePresence mode="popLayout">
               {orderedServices.map((s, i) => (
-                <motion.article
+                <Motion.article
                   key={s.key}
                   className={`dyhs-service-card dyhs-service-card-${s.key} ${
                     activeSeason === s.key ? 'active' : ''
@@ -170,11 +190,29 @@ export default function Services({ activeSeason, setActiveSeason }) {
                   <a className={`dyhs-card-btn dyhs-card-btn-${s.key}`} href="#contact">
                     Book Now
                   </a>
-                </motion.article>
+                </Motion.article>
               ))}
             </AnimatePresence>
-          </motion.div>
-        </motion.div>
+          </Motion.div>
+        </Motion.div>
+
+        <div className="dyhs-small-engine">
+          <h2 className="dyhs-small-engine-title">Small engine repair</h2>
+          <p className="dyhs-small-engine-intro">Tap the photo for details and service area.</p>
+          <button
+            type="button"
+            className="dyhs-small-engine-trigger"
+            onClick={() => setSmallEngineOpen(true)}
+            aria-haspopup="dialog"
+            aria-expanded={smallEngineOpen}
+          >
+            <span
+              className="dyhs-small-engine-trigger-media"
+              style={{ backgroundImage: `url(${SMALL_ENGINE_IMAGE})` }}
+            />
+            <span className="dyhs-small-engine-trigger-hint">View details</span>
+          </button>
+        </div>
 
         <div className="dyhs-more-services">
           <h2 className="dyhs-more-services-title">All services</h2>
@@ -195,6 +233,53 @@ export default function Services({ activeSeason, setActiveSeason }) {
           </div>
         </div>
       </div>
+
+      {createPortal(
+        <AnimatePresence>
+          {smallEngineOpen && (
+            <Motion.div
+              key="small-engine-modal"
+              className="dyhs-modal-root"
+              role="presentation"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <button
+                type="button"
+                className="dyhs-modal-backdrop"
+                aria-label="Close"
+                onClick={() => setSmallEngineOpen(false)}
+              />
+              <Motion.div
+                role="dialog"
+                aria-modal="true"
+                aria-label="Small engine repair"
+                className="dyhs-modal-card"
+                initial={{ opacity: 0, scale: 0.94, y: 16 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.96, y: 12 }}
+                transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <button
+                  type="button"
+                  className="dyhs-modal-close"
+                  onClick={() => setSmallEngineOpen(false)}
+                  aria-label="Close dialog"
+                >
+                  ×
+                </button>
+                <div
+                  className="dyhs-modal-card-media"
+                  style={{ backgroundImage: `url(${SMALL_ENGINE_IMAGE})` }}
+                />
+              </Motion.div>
+            </Motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </section>
   )
 }

@@ -1,8 +1,25 @@
+import { useState, useEffect } from 'react'
 import { motion as Motion } from 'framer-motion'
 
 const fadeUp = { initial: { opacity: 0, y: 24 }, animate: { opacity: 1, y: 0 } }
 
+/** Second image is a wide team shot — cover+center crops the sides; bias toward the right (~82%) so the crew on the right stays in frame */
+const HERO_SLIDES = [
+  { src: '/backgroundimage.png', bgPos: 'center center' },
+  { src: '/backgroundimage1.jpeg', bgPos: '82% center' },
+]
+const HERO_SLIDE_MS = 6500
+
 export default function Hero({ activeSeason, snowDots, fallLeaves }) {
+  const [heroSlide, setHeroSlide] = useState(0)
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setHeroSlide((i) => (i + 1) % HERO_SLIDES.length)
+    }, HERO_SLIDE_MS)
+    return () => window.clearInterval(id)
+  }, [])
+
   return (
     <section className="dyhs-hero" aria-label="Yard and home services">
       <div className="dyhs-hero-split">
@@ -57,11 +74,33 @@ export default function Hero({ activeSeason, snowDots, fallLeaves }) {
           </div>
         </div>
 
-        <div className="dyhs-hero-visual" aria-hidden="true">
-          <div
-            className="dyhs-hero-visual-bg"
-            style={{ backgroundImage: 'url(/backgroundimage.png)' }}
-          />
+        <div className="dyhs-hero-visual">
+          <div className="dyhs-hero-slider" aria-roledescription="carousel">
+            {HERO_SLIDES.map((slide, i) => (
+              <div
+                key={slide.src}
+                className={`dyhs-hero-visual-bg dyhs-hero-slide ${i === heroSlide ? 'is-active' : ''}`}
+                style={{
+                  backgroundImage: `url(${slide.src})`,
+                  backgroundPosition: slide.bgPos,
+                }}
+                aria-hidden={i !== heroSlide}
+              />
+            ))}
+            <div className="dyhs-hero-slider-ui" role="tablist" aria-label="Hero images">
+              {HERO_SLIDES.map((_, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  role="tab"
+                  aria-selected={i === heroSlide}
+                  className={`dyhs-hero-slider-dot ${i === heroSlide ? 'active' : ''}`}
+                  onClick={() => setHeroSlide(i)}
+                  aria-label={`Show hero image ${i + 1} of ${HERO_SLIDES.length}`}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
