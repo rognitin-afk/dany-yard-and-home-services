@@ -874,18 +874,11 @@ html {
 }
 
 .dyhs-small-engine-title {
-  margin: 0 0 8px;
+  margin: 0 0 18px;
   font-size: 22px;
   font-weight: 800;
   letter-spacing: -0.02em;
   color: var(--season-heading);
-}
-
-.dyhs-small-engine-intro {
-  margin: 0 0 18px;
-  font-size: 15px;
-  color: var(--season-muted);
-  line-height: 1.5;
 }
 
 .dyhs-small-engine-trigger {

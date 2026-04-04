@@ -74,9 +74,11 @@ const services = [
     bullets: ['Snow plowing and de-icing', 'Storm-ready planning'],
     mediaStyle: { backgroundImage: 'url(/winter.png)' },
   },
+
+  
 ]
 
-const SMALL_ENGINE_IMAGE = encodeURI('/small engine repair image.PNG')
+const SMALL_ENGINE_IMAGE = encodeURI('small engine repair image.png')
 
 const cardVariants = {
   hidden: { opacity: 0, y: 30, scale: 0.95 },
@@ -197,8 +199,7 @@ export default function Services({ activeSeason, setActiveSeason }) {
         </Motion.div>
 
         <div className="dyhs-small-engine">
-          <h2 className="dyhs-small-engine-title">Small engine repair</h2>
-          <p className="dyhs-small-engine-intro">Tap the photo for details and service area.</p>
+          <h2 className="dyhs-small-engine-title">Small Engine Repair</h2>
           <button
             type="button"
             className="dyhs-small-engine-trigger"
@@ -210,7 +211,6 @@ export default function Services({ activeSeason, setActiveSeason }) {
               className="dyhs-small-engine-trigger-media"
               style={{ backgroundImage: `url(${SMALL_ENGINE_IMAGE})` }}
             />
-            <span className="dyhs-small-engine-trigger-hint">View details</span>
           </button>
         </div>
 
@@ -255,7 +255,7 @@ export default function Services({ activeSeason, setActiveSeason }) {
               <Motion.div
                 role="dialog"
                 aria-modal="true"
-                aria-label="Small engine repair"
+                aria-label="Small Engine Repair"
                 className="dyhs-modal-card"
                 initial={{ opacity: 0, scale: 0.94, y: 16 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
